@@ -36,9 +36,12 @@ public class UI_Image
 
 public class MyUI : MonoBehaviour
 {
-    Text txt;
     static public Dictionary<string, UI_Image> EnabledUI = new Dictionary<string, UI_Image>();
     static public Dictionary<string, UI_Image> AllUI = new Dictionary<string, UI_Image>();
+    public Image propImage;
+    public Text propText;
+    public Image playerImage;
+    public Text playerText;
 
 
     public void enable(string name)
@@ -58,8 +61,11 @@ public class MyUI : MonoBehaviour
         initAllUI();
         instance = this;
         GameManager.Instance.initGameManager();
+        propImage = GameObject.Find("道具").GetComponent<Image>();
+        propText = GameObject.Find("道具值").GetComponent<Text>();
+        playerImage = GameObject.Find("playershow").GetComponent<Image>();
+        playerText = GameObject.Find("playershowvalue").GetComponent<Text>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -74,7 +80,6 @@ public class MyUI : MonoBehaviour
     }
     public void initAllUI()
     {
-        Debug.Log("clear");
         AllUI.Clear();
         EnabledUI.Clear();
         AllUI.Add("Emotion", new UI_Image(GameObject.Find("Emotion背景").GetComponent<Image>(), GameObject.Find("Emotion值").GetComponent<Image>(), "Emotion"));
@@ -87,7 +92,28 @@ public class MyUI : MonoBehaviour
             kvp.Value.DisableUI();
         }
     }
-
-
+    public void updateprop(item prop)
+    {
+        propImage.sprite = prop.ren.sprite;
+        propText.text = prop.type.ToString();
+    }
+    public void updateplayer(Game_State game_state)
+    {
+        switch (game_state)
+        {
+            case Game_State.Kid:
+                playerImage.sprite = Resources.Load("Player/BigRightStanding", typeof(Sprite)) as Sprite;
+                playerText.text = "小屁孩";
+                break;
+            case Game_State.Youth:
+                playerImage.sprite = Resources.Load("Player/BigRightStanding", typeof(Sprite)) as Sprite;
+                playerText.text = "学生时期";
+                break;
+            case Game_State.Worker:
+                playerImage.sprite = Resources.Load("Player/BigRightStanding", typeof(Sprite)) as Sprite;
+                playerText.text = "上班族";
+                break;
+        }
+    }
 
 }

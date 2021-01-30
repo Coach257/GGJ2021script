@@ -83,10 +83,16 @@ public class GameManager
         game.playerMove = GameObject.Find("Player").GetComponent<PlayerMove>();
         game.myUI = GameObject.Find("Text").GetComponent<MyUI>();
         game.myUI.initAllUI();
+        game.feverTime = 0;
+        game.gameTime = 180;
+        game.feverTime = 0;
+        game.feverCold = 0;
+        game.gameSpeed = 1;
     }
 
     public void init(Game_State state)
     {
+        myUI.updateplayer(state);
         switch (state)
         {
             case Game_State.Kid:

@@ -59,12 +59,13 @@ public class item : MonoBehaviour
     int family = 0;
 
 
-    SpriteRenderer ren;
+    public SpriteRenderer ren;
 
     void Awake()
     {
         ren = GetComponent<SpriteRenderer>();
         Random.InitState(System.Environment.TickCount);
+        
         
     }
 
@@ -202,6 +203,7 @@ public class item : MonoBehaviour
                 GameManager.Instance.add("Relation", relation);
             
             CreateIcon();
+            ShowPropUI();
             Destroy(gameObject);
         }
         if (collision.tag == "Outside")//超出上界后消失
@@ -276,4 +278,10 @@ public class item : MonoBehaviour
         }
         return results;
     }
+    private void ShowPropUI()
+    {
+        MyUI.GetInstance().updateprop(this);
+    }
+
+    
 }

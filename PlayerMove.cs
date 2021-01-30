@@ -47,6 +47,7 @@ public class PlayerMove : MonoBehaviour
         animator = GetComponent<Animator>();
         isGround = transform.Find("isGround");
         GameManager.Instance.init(Game_State.Kid);
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -135,6 +136,7 @@ public class PlayerMove : MonoBehaviour
                 if (body_t >= body_T)
                 {
                     GameManager.Instance.add("Body", -1);
+                    GameManager.Instance.add("Emotion",-1);
                     body_t = 0;
                 }
                 body_t += Time.deltaTime;
@@ -143,7 +145,7 @@ public class PlayerMove : MonoBehaviour
                 {
                     if (health_t >= health_T)
                     {
-                        //GameManager.Instance.addHealth(-1);
+                        GameManager.Instance.add("Body",-1);
                         health_t = 0;
                     }
                     health_t += Time.deltaTime;
@@ -155,7 +157,7 @@ public class PlayerMove : MonoBehaviour
                 {
                     if (health_virus_t >= health_virus_T)
                     {
-                        //GameManager.Instance.addHealth(-1);
+                        GameManager.Instance.add("Body",-1);
                         health_virus_t = 0;
                     }
                     health_virus_t += Time.deltaTime;
@@ -166,8 +168,6 @@ public class PlayerMove : MonoBehaviour
         if (GameManager.Instance.UIValueList["Body"].nowvalue <= 0)
         {
             GameManager.Instance.gameState = Game_State.KidGameOver3;
-
-            
             Result();
         }
         //emotion足够，胜利
@@ -211,6 +211,11 @@ public class PlayerMove : MonoBehaviour
             {
                 gamepause();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            GameObject.Find("Audio Source").GetComponent<AudioController>().change();
+
         }
         //孩子胜利，C继续游戏
         if (GameManager.Instance.gameState == Game_State.KidWin && Input.GetKeyDown(KeyCode.C))
